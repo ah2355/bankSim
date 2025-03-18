@@ -1,7 +1,14 @@
 .auth-background{
-  background: url('/public/stars.jpg') no-repeat center center/cover;
+  background: url('/public/stars.jpg') no-repeat center center fixed;
+  background-size: cover;
   height: 100vh;
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
