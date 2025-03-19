@@ -14,7 +14,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
         <div className = "auth-background">
          <div className = "container d-flex justify-content-center align-items-center vh-100">
             <div className = "card p-4 shadow" style = {{width: '400px'}}>
-                <h2 className = "text-center">Login</h2>
+                <h2 className = "text-center">LOGIN</h2>
                 <div className = "mb-3">
                     <label className= "form-label">Username</label>
                     <input type = "text" className = "form-control" placeholder="Enter username" onChange = {(e) => setUsername(e.target.value)} />
