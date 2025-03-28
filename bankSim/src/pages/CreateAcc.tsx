@@ -4,8 +4,7 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const handleCreateAccount = () => {
-
+    const handleCreateAccount = async () => {
         if(userName === '' || password === '' || confirmPassword === ''){
             alert('Please fill in all fields');
             return;
@@ -16,14 +15,37 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
             return;
         }
         
-        if(password === confirmPassword){
-            onAccountCreate();
-        } else {
-            alert('Passwords do not match');
+        if(password !== confirmPassword){
+            alert('Passwords do not match')
+            return;
         }
 
-        alert('Account created');
-        onAccountCreate();
+        try {
+            const response = await fetch('http://localhost:5001/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: userName,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+            console.log("Response status:", response.status);
+            console.log("Response data:", data);
+            if (response.ok) {
+                alert('Account created successfully! You can now log in.');
+                onAccountCreate();
+            } else {
+                alert(data.error || "Failed to create account.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong.");
+        }
+
     }
 
     return(
