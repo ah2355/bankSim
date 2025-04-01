@@ -3,13 +3,52 @@ import { useState } from "react";
 export default function Login({onLogin, onCreateAccount} : {onLogin : () => void; onCreateAccount : () => void}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const handleLogin = () => {
-        if(username === 'admin' && password === 'admin') {
-            onLogin();
-        } else{
-            alert('Invalid credentials');
+    const handleLogin = async () => {
+        if(username === '' || password === ''){
+            alert('Please fill in all fields');
+            return;
         }
-    };
+        
+        if(password.length < 6){
+            alert('Password must be more than 6 characters');
+            return;
+        }
+
+        try{
+            const response = await fetch('http://localhost:5001/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            });
+            const data = await response.json();
+
+            if(response.ok){
+                alert('Login successful!');
+                onLogin();
+            }
+            else{
+
+                if(data.error){
+                    alert(data.error);
+                } else {
+                    alert('Failed to login. Please check your credentials.');
+                }
+            }
+
+        }
+
+        catch(err){
+            console.error(err);
+            alert("Something went wrong while trying to login.");
+        }
+    }
+
+
     return (
         <div className = "auth-background">
          <div className = "container d-flex justify-content-center align-items-center vh-100">
