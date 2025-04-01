@@ -3,6 +3,8 @@ import { useState } from "react";
 export default function Login({onLogin, onCreateAccount} : {onLogin : () => void; onCreateAccount : () => void}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState<'success' | 'error'>('success'); 
     const handleLogin = async () => {
         if(username === '' || password === ''){
             alert('Please fill in all fields');
@@ -35,17 +37,16 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                 return;
             }
             if(response.ok){
+                setMessageType('success');
+                setMessage('Login successful!');
                 localStorage.setItem("user", JSON.stringify(data.user));
                 alert('Login successful!');
                 onLogin();
             }
             else{
 
-                if(data.error){
-                    alert(data.error);
-                } else {
-                    alert('Failed to login. Please check your credentials.');
-                }
+                setMessageType('error');
+                setMessage(data.error||'Login failed');
             }
 
         }
@@ -62,6 +63,11 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
          <div className = "container d-flex justify-content-center align-items-center vh-100">
             <div className = "card p-4 shadow" style = {{width: '400px'}}>
                 <h2 className = "text-center">LOGIN</h2>
+                {message && ( 
+                    <div className={`alert alert-${messageType}`} role="alert"> 
+                      {message}
+                       </div>
+                )}
                 <div className = "mb-3">
                     <label className= "form-label">Username</label>
                     <input type = "text" className = "form-control" placeholder="Enter username" onChange = {(e) => setUsername(e.target.value)} />
