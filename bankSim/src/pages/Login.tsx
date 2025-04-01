@@ -35,6 +35,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                 return;
             }
             if(response.ok){
+                localStorage.setItem("user", JSON.stringify(data.user));
                 alert('Login successful!');
                 onLogin();
             }

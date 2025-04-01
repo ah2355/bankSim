@@ -1,12 +1,10 @@
-export default function Dashboard(){
+export default function Dashboard({user, onLogout} : {user : any; onLogout : () => void}) {
     return (
-        <div className = "d-flex justify-content-center align-items-center flex-column vh-100">
-            <h1>Dashboard</h1>
-            <div className = "card p-2 align-items-center border-0" style = {{width: '400px'}}>
-                <p>Enjoy the experience </p>
-                <p>With the help of our amazing staff!!</p>
+        <div className = "p-5">
+            <div className = "card shadow p-3 mb-5 bg-body rounded">
+                <h2 className = "mb-3"> Welcome, {user.username}!</h2>
             </div>
-          
+            <button className = "btn btn-danger" onClick = {onLogout}>Logout</button>
         </div>
     )
 }

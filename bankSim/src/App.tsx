@@ -9,13 +9,28 @@ function App(){
   //   console.log(item);
   // }
   const [currPage, setCurrPage] = useState('login');
+  const [user, setUser] = useState(() => { 
+    const storedUser = localStorage.getItem('user');
+    if(storedUser){
+      return JSON.parse(storedUser);
+    }else{
+      return null;
+    }
+  });
+
 
   return (
     <div>
       <Navbar onNavigate = {setCurrPage} />
       <div className = "container">
-        {currPage === 'login' && <Login onLogin = {() => setCurrPage("dashboard")} onCreateAccount = {() => setCurrPage('createAcc')} />}
-        {currPage === 'dashboard' && <Dashboard/>}
+        {currPage === 'login' && <Login onLogin = {() =>{ const storedUser = localStorage.getItem("user"); 
+        setUser(storedUser ? JSON.parse(storedUser) : null);
+          setCurrPage('dashboard')}} onCreateAccount = {() => setCurrPage('createAcc')}/>}
+        {currPage === 'dashboard' && user && <Dashboard user ={user} onLogout = {() => {
+          localStorage.removeItem("user");
+          setUser(null);
+          setCurrPage('login');
+        }} />}
         {currPage === "createAcc" && <CreateAcc onAccountCreate = {() => setCurrPage('login')}/>}
       </div>
 
