@@ -21,7 +21,14 @@ function App(){
 
   return (
     <div>
-      <Navbar onNavigate = {setCurrPage} />
+      <Navbar onNavigate = {(targetPage) => {
+        if(targetPage === 'dashboard' && !user){
+          setCurrPage('login');
+        }
+        else{
+          setCurrPage(targetPage);
+        }
+      }} />
       <div className = "container">
         {currPage === 'login' && <Login onLogin = {() =>{ const storedUser = localStorage.getItem("user"); 
         setUser(storedUser ? JSON.parse(storedUser) : null);
