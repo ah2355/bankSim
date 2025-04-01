@@ -15,7 +15,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
         }
 
         try{
-            const response = await fetch('http://localhost:5001/api/login', {
+            const response = await fetch('https://banksim-frontend.onrender.com/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
