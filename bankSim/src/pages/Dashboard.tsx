@@ -4,6 +4,9 @@ export default function Dashboard({user, onLogout} : {user : any; onLogout : () 
             <div className = "card shadow p-3 mb-5 bg-body rounded">
                 <h2 className = "mb-3"> Welcome, {user.username}!</h2>
             </div>
+            <div className = "card shadow p-3 mb-5 bg-body rounded">
+                <h3 className = "mb-3">Account Balance</h3>
+            </div>
             <button className = "btn btn-danger" onClick = {onLogout}>Logout</button>
         </div>
     )
