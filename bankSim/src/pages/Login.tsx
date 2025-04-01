@@ -43,6 +43,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                 setMessageType('success');
                 setMessage('Login successful!');
                 localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("isLoggedIn", "true");
                 onLogin();
             }
             else{

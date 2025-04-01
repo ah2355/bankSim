@@ -22,7 +22,8 @@ function App(){
   return (
     <div>
       <Navbar onNavigate = {(targetPage) => {
-        if(targetPage === 'dashboard' && !user){
+        const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+        if(targetPage === 'dashboard' && (!user||!isLoggedIn)){
           setCurrPage('login');
         }
         else{
@@ -35,6 +36,7 @@ function App(){
           setCurrPage('dashboard')}} onCreateAccount = {() => setCurrPage('createAcc')}/>}
         {currPage === 'dashboard' && user && <Dashboard user ={user} onLogout = {() => {
           localStorage.removeItem("user");
+          localStorage.removeItem("isLoggedIn");
           setUser(null);
           setCurrPage('login');
         }} />}
