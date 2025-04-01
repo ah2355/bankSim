@@ -25,8 +25,15 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                     password: password
                 })
             });
-            const data = await response.json();
-
+            let data;
+            try{
+                data = await response.json();
+            } 
+            catch(err){
+                console.error(err);
+                alert('Something went wrong while trying to login.');
+                return;
+            }
             if(response.ok){
                 alert('Login successful!');
                 onLogin();
