@@ -7,12 +7,14 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
     const [messageType, setMessageType] = useState<'success' | 'error'>('success'); 
     const handleLogin = async () => {
         if(username === '' || password === ''){
-            alert('Please fill in all fields');
+           setMessageType('error');
+           setMessage('Please fill in all fields');
             return;
         }
         
         if(password.length < 6){
-            alert('Password must be more than 6 characters');
+            setMessageType('error');
+            setMessage('Password must be at least 6 characters long');
             return;
         }
 
@@ -33,14 +35,14 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
             } 
             catch(err){
                 console.error(err);
-                alert('Something went wrong while trying to login.');
+                setMessageType('error');
+                setMessage('Something went wrong while trying to login.');
                 return;
             }
             if(response.ok){
                 setMessageType('success');
                 setMessage('Login successful!');
                 localStorage.setItem("user", JSON.stringify(data.user));
-                alert('Login successful!');
                 onLogin();
             }
             else{
@@ -53,7 +55,8 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
 
         catch(err){
             console.error(err);
-            alert("Something went wrong while trying to login.");
+            setMessageType('error');
+            setMessage('Something went wrong while trying to login.');
         }
     }
 
