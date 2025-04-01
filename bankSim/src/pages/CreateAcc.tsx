@@ -21,7 +21,7 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
         }
 
         try {
-            const response = await fetch('https://banksim-frontend.onrender.com/api/users', {
+            const response = await fetch('https://banksim-backend.onrender.com/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
