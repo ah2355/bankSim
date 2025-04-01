@@ -68,7 +68,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
             <div className = "card p-4 shadow" style = {{width: '400px'}}>
                 <h2 className = "text-center">LOGIN</h2>
                 {message && ( 
-                    <div className={`alert alert-${messageType}`} role="alert"> 
+                    <div className={`alert alert-${messageType}`} role="alert" mt-3 text-center w-100> 
                       {message}
                        </div>
                 )}
