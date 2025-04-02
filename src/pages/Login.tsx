@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 export default function Login({onLogin, onCreateAccount} : {onLogin : () => void; onCreateAccount : () => void}) {
+    const DATABASE_URL = import.meta.env.VITE_DATABASE_URL;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -19,7 +20,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
         }
 
         try{
-            const response = await fetch('https://banksim-backend.onrender.com/api/login', {
+            const response = await fetch(`${DATABASE_URL}/api/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

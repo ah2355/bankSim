@@ -1,6 +1,7 @@
 import {useState} from 'react';
 
 export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => void}) {
+    const DATABASE_URL = import.meta.env.VITE_DATABASE_URL;
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,7 +22,7 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
         }
 
         try {
-            const response = await fetch('https://banksim-backend.onrender.com/api/users', {
+            const response = await fetch(`{DATABASE_URL}/api/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
