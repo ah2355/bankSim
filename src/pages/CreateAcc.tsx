@@ -22,7 +22,7 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
         }
 
         try {
-            const response = await fetch(`{DATABASE_URL}/api/users`, {
+            const response = await fetch(`${DATABASE_URL}/api/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
