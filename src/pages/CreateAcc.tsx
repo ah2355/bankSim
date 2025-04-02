@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => void}) {
-    const DATABASE_URL = import.meta.env.VITE_DATABASE_URL;
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,7 +22,7 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
         }
 
         try {
-            const response = await fetch(`${DATABASE_URL}/api/users`, {
+            const response = await fetch(`${BACKEND_URL}/api/users`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
