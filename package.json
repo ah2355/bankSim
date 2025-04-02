@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "node index.js",
+  "postinstall": "npm rebuild bcrypt --build-from-source"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
