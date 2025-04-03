@@ -31,15 +31,24 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                 })
             });
             let data;
-            try{
-                data = await response.json();
-            } 
-            catch(err){
-                console.error(err);
+            try {
+                const raw = await response.text();
+                console.log("RAW response from backend:", raw);
+
+                data = raw ? JSON.parse(raw) : null;
+
+                if (!data) {
+                    setMessageType('error');
+                    setMessage('Empty response from server.');
+                    return;
+                }
+            } catch (err) {
+                console.error("JSON parse error:", err);
                 setMessageType('error');
-                setMessage('Something went wrong while trying to login.');
+                setMessage('Invalid response from server.');
                 return;
             }
+
             if(response.ok){
                 setMessageType('success');
                 setMessage('Login successful!');
