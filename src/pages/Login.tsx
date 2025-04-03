@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export default function Login({onLogin, onCreateAccount} : {onLogin : () => void; onCreateAccount : () => void}) {
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
-    console.log("Backend URL:", BACKEND_URL);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -32,23 +31,14 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                 })
             });
             let data;
+            
             try {
-                const raw = await response.text();
-                console.log("RAW response from backend:", raw);
-                console.log("bad");
-
-                data = raw ? JSON.parse(raw) : null;
-
-                if (!data) {
-                    setMessageType('error');
-                    setMessage('Empty response from server.');
-                    return;
-                }
+            data = await response.json();
             } catch (err) {
-                console.error("JSON parse error:", err);
-                setMessageType('error');
-                setMessage('Invalid response from server.');
-                return;
+            console.error("Failed to parse JSON:", err);
+            setMessageType("error");
+            setMessage("Something went wrong while trying to login.");
+            return;
             }
 
             if(response.ok){
