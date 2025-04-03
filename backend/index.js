@@ -28,6 +28,7 @@ app.get('/users', async (req, res) => {
 });
 
 app.post('/api/users', async (req, res) => {
+  console.log("Received login request:", req.body); 
     const { username, password } = req.body;
 
     if(!username || !password) {
@@ -41,10 +42,14 @@ app.post('/api/users', async (req, res) => {
        const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username',
       [username, hashedPassword]);
 
-      res.status(201).json({
-        message: "User created successfully",
-        id: result.rows[0].id,
-        username: result.rows[0].username,
+      res.status(200).json({
+        message: 'Login successful',
+        user: {
+          id: user.id,
+          username: user.username,
+          role: user.role,
+          balance: user.balance
+        }
       });
     }
     catch (err) {
