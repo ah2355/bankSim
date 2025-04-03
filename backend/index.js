@@ -60,6 +60,8 @@ app.post('/api/users', async (req, res) => {
 
 
 app.post('/api/login', async (req,res)=>{
+  console.log("🚀 /api/login hit");
+  console.log("Request body:", req.body);
   const { username, password } = req.body;
 
   try{
@@ -75,6 +77,7 @@ app.post('/api/login', async (req,res)=>{
     if(!passwordMatch){
       return res.status(401).json({ error: 'Invalid username or password' });
     }
+    console.log("Login successful for:", user.username);
     res.json({
       message: 'Login successful',
       user: {
