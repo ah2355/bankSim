@@ -34,6 +34,7 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
             try {
                 const raw = await response.text();
                 console.log("RAW response from backend:", raw);
+                console.log("bad");
 
                 data = raw ? JSON.parse(raw) : null;
 
