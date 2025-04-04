@@ -13,6 +13,10 @@ export default function Navbar({onNavigate} : {onNavigate : (page : string) => v
                         <li className = "nav-item">
                         <button className = "btn btn-outline-light me-2" onClick = {() => onNavigate('dashboard')}>Dashboard</button>
                         </li>
+
+                        <li className = "nav-item">
+                            <button className = "btn btn-outline-light me-2" onClick = {() => onNavigate('admin')}>Admin</button>
+                        </li>
                     </ul>
                 </div>
             </div>
