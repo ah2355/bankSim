@@ -125,6 +125,37 @@ app.post('/api/deposit' , async (req, res) => {
   }
 });
 
+app.post('/api/withdraw', async (req, res) => {
+  const { userId, amount } = req.body;
+
+  if (!userId || !amount) {
+    return res.status(400).json({ error: 'User ID and amount are required' });
+  }
+
+  try {
+    const result = await db.query('UPDATE users SET balance = balance - $1 WHERE id = $2 RETURNING *', [amount, userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const updatedUser = result.rows[0];
+    console.log("Withdrawal successful for:", updatedUser.username);
+
+    res.json({
+      message: 'Withdrawal successful',
+      user: {
+        id: updatedUser.id,
+        username: updatedUser.username,
+        balance: updatedUser.balance,
+      },
+    });
+  } catch (err) {
+    console.error('Error processing withdrawal:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 const PORT = 5001;
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
