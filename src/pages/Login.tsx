@@ -83,7 +83,11 @@ export default function Login({onLogin, onCreateAccount} : {onLogin : () => void
                     <input type = "password" className = "form-control" placeholder="Enter password" onChange = {(e) => setPassword(e.target.value)} />
                 </div>
                 <button className = "btn btn-primary w-100" onClick = {handleLogin}>Login</button>
-                <button className = "btn btn-link w-100" onClick ={onCreateAccount}>Create Account</button>
+                <div className = "text-center mt-3">
+                    <span>New here?
+                    <button className = "btn btn-link align-baseline w-100" onClick ={onCreateAccount}>Create Account</button>
+                    </span>
+                </div>
             </div>
          </div>
         </div>

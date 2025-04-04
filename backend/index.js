@@ -28,40 +28,40 @@ app.get('/users', async (req, res) => {
 });
 
 app.post('/api/users', async (req, res) => {
-  console.log("Received login request:", req.body); 
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    if(!username || !password) {
-        return res.status(400).json({ error: 'Username and password are required' });
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
+  try {
+    const check = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (check.rows.length > 0) {
+      return res.status(409).json({ error: 'Username already exists. Please choose another.' });
     }
 
-    try{
-       const round = 10;
-       const hashedPassword = await bcrypt.hash(password, round);
-       
-       const result = await db.query('INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username',
-      [username, hashedPassword]);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-      res.status(200).json({
-        message: 'Login successful',
-        user: {
-          id: user.id,
-          username: user.username,
-          role: user.role,
-          balance: user.balance
-        }
-      });
-    }
-    catch (err) {
-        console.error('Error creating user:', err.message);
-        res.status(400).json({ error: 'Account creation failed. Username might already exist.' });
-      }
+    const result = await db.query(
+      'INSERT INTO users (username, password, role) VALUES ($1, $2, $3) RETURNING id, username, role',
+      [username, hashedPassword, 'customer']
+    );
+
+    const user = result.rows[0];
+    console.log("Account created:", user);
+
+    res.status(201).json({
+      message: 'Account created successfully!',
+      user
+    });
+  } catch (err) {
+    console.error("Error creating user:", err.stack || err);
+    res.status(500).json({ error: err.message || 'Internal server error.' });
+  }
 });
 
 
 app.post('/api/login', async (req,res)=>{
-  console.log("🚀 /api/login hit");
-  console.log("Request body:", req.body);
   const { username, password } = req.body;
 
   try{
@@ -83,6 +83,8 @@ app.post('/api/login', async (req,res)=>{
       user: {
         id: user.id,
         username: user.username,
+        role: user.role,
+        balance: user.balance,
       },
     });
   }catch(err){
