@@ -1,7 +1,7 @@
 A Simple Webpage That Will One Day act like a bank!
 
 Techonology used: 
-1) React w/ Typescript
+1) React+Typescript+VITE
 2) JavaScript
 3) HTML
 4) CSS
