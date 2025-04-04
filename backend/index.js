@@ -43,7 +43,7 @@ app.post('/api/users', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const result = await db.query(
-      'INSERT INTO users (username, password, role) VALUES ($1, $2, $3) RETURNING id, username, role',
+      'INSERT INTO users (username, password, role) VALUES ($1, $2, $3) RETURNING id, username, role, balance',
       [username, hashedPassword, 'customer']
     );
 

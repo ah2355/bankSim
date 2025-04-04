@@ -37,6 +37,8 @@ export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => v
             console.log("Response status:", response.status);
             console.log("Response data:", data);
             if (response.ok) {
+                localStorage.setItem("user", JSON.stringify(data.user));
+                localStorage.setItem("isLoggedIn", "true");
                 alert('Account created successfully! You can now log in.');
                 onAccountCreate();
             } else {
