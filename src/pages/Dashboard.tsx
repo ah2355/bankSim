@@ -5,7 +5,7 @@ interface User {
     balance: number;
     id: number;
 }
-export default function Dashboard({user, onLogout} : {user : User; onLogout : () => void}) {
+export default function Dashboard({user, setUser, onLogout} : {user : User; setUser: (user: User) => void; onLogout : () => void}) {
     const [showDeposit, setShowDeposit] = useState(false);
     const [amount, setAmount] = useState(0);
     const [showWithdraw, setShowWithdraw] = useState(false);
@@ -83,6 +83,8 @@ export default function Dashboard({user, onLogout} : {user : User; onLogout : ()
                                         alert(`Deposited $${amount}`);
                                         setAmount(0);
                                         setShowDeposit(false);
+                                        localStorage.setItem("user", JSON.stringify(data.user));
+                                        setUser(data.user);
                                     }
                                     else{
                                         alert(data.error || 'Deposit failed');
@@ -118,7 +120,7 @@ export default function Dashboard({user, onLogout} : {user : User; onLogout : ()
                                             setAmount(value);
                                         } else {
                                             setAmount(0);
-                                        }}} className="form-control text-center fw-bold" style={{ fontSize: "1.8rem", color: "blue", height: "60px", paddingTop: "0", paddingBottom: "0",}}
+                                        }}} className="form-control text-center fw-bold" style={{ fontSize: "1.8rem", color: "red", height: "60px", paddingTop: "0", paddingBottom: "0",}}
                                     />
                                     </div>
                                 
@@ -147,6 +149,8 @@ export default function Dashboard({user, onLogout} : {user : User; onLogout : ()
                                         alert(`Withdrawed $${amount}`);
                                         setAmount(0);
                                         setShowWithdraw(false);
+                                        localStorage.setItem("user", JSON.stringify(data.user));
+                                        setUser(data.user);
                                     }
                                     else{
                                         alert(data.error || 'Withdraw failed');

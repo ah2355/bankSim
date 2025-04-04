@@ -34,12 +34,12 @@ function App(){
         {currPage === 'login' && <Login onLogin = {() =>{ const storedUser = localStorage.getItem("user"); 
         setUser(storedUser ? JSON.parse(storedUser) : null);
           setCurrPage('dashboard')}} onCreateAccount = {() => setCurrPage('createAcc')}/>}
-        {currPage === 'dashboard' && user && <Dashboard user ={user} onLogout = {() => {
+        {currPage === 'dashboard' && user && (<Dashboard user ={user} setUser={setUser} onLogout = {() => {
           localStorage.removeItem("user");
           localStorage.removeItem("isLoggedIn");
           setUser(null);
           setCurrPage('login');
-        }} />}
+        }} />)}
         {currPage === "createAcc" && <CreateAcc onAccountCreate = {() => setCurrPage('login')}/>}
       </div>
 
