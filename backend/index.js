@@ -116,6 +116,7 @@ app.post('/api/deposit' , async (req, res) => {
       user: {
         id: updatedUser.id,
         username: updatedUser.username,
+        role: updatedUser.role,
         balance: updatedUser.balance,
       },
     });
@@ -123,6 +124,8 @@ app.post('/api/deposit' , async (req, res) => {
     console.error('Error processing deposit:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
+
+
 });
 
 app.post('/api/withdraw', async (req, res) => {
@@ -147,6 +150,7 @@ app.post('/api/withdraw', async (req, res) => {
       user: {
         id: updatedUser.id,
         username: updatedUser.username,
+        role : updatedUser.role,
         balance: updatedUser.balance,
       },
     });
@@ -154,6 +158,7 @@ app.post('/api/withdraw', async (req, res) => {
     console.error('Error processing withdrawal:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
+
 });
 
 const PORT = 5001;

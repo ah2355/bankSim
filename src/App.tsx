@@ -12,6 +12,7 @@ function App(){
   const [user, setUser] = useState(() => { 
     const storedUser = localStorage.getItem('user');
     if(storedUser){
+      console.log("📤 Loaded user from localStorage:", storedUser);
       return JSON.parse(storedUser);
     }else{
       return null;
