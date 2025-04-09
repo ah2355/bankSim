@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 interface User {
   username: string;
@@ -33,7 +34,7 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
       return;
     }
     try {
-      const response = await fetch(`http://localhost:5001/api/${type}`, {
+      const response = await fetch(`${API_URL}/api/${type}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

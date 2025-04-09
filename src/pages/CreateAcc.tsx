@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 export default function CreateAcc({onAccountCreate} : {onAccountCreate : () => void}) {
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
