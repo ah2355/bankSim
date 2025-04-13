@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-const API_URL = import.meta.env.VITE_BACKEND_URL;
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5001";
 
 interface User {
   username: string;
@@ -8,6 +8,14 @@ interface User {
   id: number;
 }
 
+// interface Transaction {
+//   id: number;
+//   userId: number;
+//   type: string;
+//   amount: number;
+//   created_at : string;
+// }
+
 export default function Dashboard({ user, setUser, onLogout }: { user: User; setUser: (user: User) => void; onLogout: () => void }) {
   const [showDeposit, setShowDeposit] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
@@ -15,6 +23,7 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
   const [isVisible, setIsVisible] = useState(false);
+  // const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
     if (message) {
@@ -27,6 +36,20 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
       };
     }
   }, [message]);
+
+  // useEffect(() => {
+  //   const fetchTransactions = async () => {
+  //     try {
+  //       const response = await fetch(`${API_URL}/api/transactions/${user.id}`);
+  //       const data = await response.json();
+  //       setTransactions(data.transactions);
+  //     } catch (err) {
+  //       console.error('Failed to fetch transactions', err);
+  //     }
+  //   };
+  //   fetchTransactions();
+  // }, [user.id]);
+  
 
   const handleTransaction = async (type: 'deposit' | 'withdraw') => {
     if (amount <= 0) {
@@ -110,7 +133,36 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
             </div>
           </div>
         )}
+{/* 
+        <div className = "card shadow text-center" style={{ maxWidth: '500px', width: '100%', padding: '20px 30px', borderRadius: '1rem' }}>
+          <div className="card-body">
+            <div className = "card-title"><h5>Transaction History</h5></div>
+             <div className="table-responsive">
+              <table className="table table-striped table-bordered">
+                <thead className = "table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((transaction) => (
+                    <tr key={transaction.id}>
+                      <td>{transaction.id}</td>
+                      <td>{transaction.type}</td>
+                      <td>${transaction.amount}</td>
+                      <td>{new Date(transaction.created_at).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> */}
 
+        
         <div className="text-center mt-4">
           <button className="btn btn-danger" onClick={onLogout}>Logout</button>
         </div>

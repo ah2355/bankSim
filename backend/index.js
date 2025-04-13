@@ -111,6 +111,13 @@ app.post('/api/deposit' , async (req, res) => {
     const updatedUser = result.rows[0];
     console.log("Deposit successful for:", updatedUser.username);
 
+
+    await db.query(
+      'INSERT INTO transactions (user_id, type, amount) VALUES ($1, $2, $3)',
+      [userId, 'deposit', amount]
+    );
+    
+
     res.json({
       message: 'Deposit successful',
       user: {
@@ -145,6 +152,11 @@ app.post('/api/withdraw', async (req, res) => {
     const updatedUser = result.rows[0];
     console.log("Withdrawal successful for:", updatedUser.username);
 
+    await db.query(
+      'INSERT INTO transactions (user_id, type, amount) VALUES ($1, $2, $3)',
+      [userId, 'withdraw', amount]
+    );
+
     res.json({
       message: 'Withdrawal successful',
       user: {
@@ -160,6 +172,24 @@ app.post('/api/withdraw', async (req, res) => {
   }
 
 });
+
+app.get('/api/transactions/:userId', async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const result = await db.query('SELECT * FROM transactions WHERE user_id = $1 ORDER BY created_at DESC', [userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'No transactions found for this user' });
+    }
+
+    res.json({transaction : result.rows});
+  } catch (err) {
+    console.error('Error fetching transactions:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 const PORT = 5001;
 app.listen(PORT, () => {
