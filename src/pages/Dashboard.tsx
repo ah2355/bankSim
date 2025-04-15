@@ -8,13 +8,13 @@ interface User {
   id: number;
 }
 
-// interface Transaction {
-//   id: number;
-//   userId: number;
-//   type: string;
-//   amount: number;
-//   created_at : string;
-// }
+interface Transaction {
+  id: number;
+  userId: number;
+  type: string;
+  amount: number;
+  created_at : string;
+}
 
 export default function Dashboard({ user, setUser, onLogout }: { user: User; setUser: (user: User) => void; onLogout: () => void }) {
   const [showDeposit, setShowDeposit] = useState(false);
@@ -23,7 +23,8 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
   const [isVisible, setIsVisible] = useState(false);
-  // const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const[balance, setBalance] = useState(user.balance);
 
   useEffect(() => {
     if (message) {
@@ -37,18 +38,18 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
     }
   }, [message]);
 
-  // useEffect(() => {
-  //   const fetchTransactions = async () => {
-  //     try {
-  //       const response = await fetch(`${API_URL}/api/transactions/${user.id}`);
-  //       const data = await response.json();
-  //       setTransactions(data.transactions);
-  //     } catch (err) {
-  //       console.error('Failed to fetch transactions', err);
-  //     }
-  //   };
-  //   fetchTransactions();
-  // }, [user.id]);
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/transactions/${user.id}`);
+        const data = await response.json();
+        setTransactions(data.transactions);
+      } catch (err) {
+        console.error('Failed to fetch transactions', err);
+      }
+    };
+    fetchTransactions();
+  }, [user.id]);
   
 
   const handleTransaction = async (type: 'deposit' | 'withdraw') => {
@@ -74,6 +75,7 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
         if (type === 'withdraw') setShowWithdraw(false);
         localStorage.setItem('user', JSON.stringify(data.user));
         setUser(data.user);
+        await fetchTransactions(); 
       } else {
         setMessageType('error');
         setMessage(data.error || `${type} failed`);
@@ -82,6 +84,20 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
       console.error(err);
       setMessageType('error');
       setMessage('Something went wrong');
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    const res = await fetch(`${API_URL}/api/transactions/${user.id}`);
+    if (res.ok) {
+      const data = await res.json();
+      setTransactions(data.transactions);
+    } else {
+      console.error('Failed to fetch transactions');
     }
   };
 
@@ -133,7 +149,7 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
             </div>
           </div>
         )}
-{/* 
+
         <div className = "card shadow text-center" style={{ maxWidth: '500px', width: '100%', padding: '20px 30px', borderRadius: '1rem' }}>
           <div className="card-body">
             <div className = "card-title"><h5>Transaction History</h5></div>
@@ -160,7 +176,7 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
               </table>
             </div>
           </div>
-        </div> */}
+        </div>
 
         
         <div className="text-center mt-4">

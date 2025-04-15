@@ -183,7 +183,7 @@ app.get('/api/transactions/:userId', async (req, res) => {
       return res.status(404).json({ error: 'No transactions found for this user' });
     }
 
-    res.json({transaction : result.rows});
+    res.json({transactions : result.rows});
   } catch (err) {
     console.error('Error fetching transactions:', err);
     res.status(500).json({ error: 'Internal server error' });
