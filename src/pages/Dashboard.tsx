@@ -24,7 +24,6 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
   const [messageType, setMessageType] = useState<'success' | 'error'>('success');
   const [isVisible, setIsVisible] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const[balance, setBalance] = useState(user.balance);
 
   useEffect(() => {
     if (message) {
