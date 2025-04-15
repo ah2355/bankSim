@@ -152,9 +152,9 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
         <div className = "card shadow text-center" style={{ maxWidth: '500px', width: '100%', padding: '20px 30px', borderRadius: '1rem' }}>
           <div className="card-body">
             <div className = "card-title"><h5>Transaction History</h5></div>
-             <div className="table-responsive">
+            <div className="table-responsive">
               <table className="table table-striped table-bordered">
-                <thead className = "table-dark">
+                <thead className="table-dark">
                   <tr>
                     <th>ID</th>
                     <th>Type</th>
@@ -163,14 +163,20 @@ export default function Dashboard({ user, setUser, onLogout }: { user: User; set
                   </tr>
                 </thead>
                 <tbody>
-                  {transactions.map((transaction) => (
-                    <tr key={transaction.id}>
-                      <td>{transaction.id}</td>
-                      <td>{transaction.type}</td>
-                      <td>${transaction.amount}</td>
-                      <td>{new Date(transaction.created_at).toLocaleDateString()}</td>
+                  {transactions && transactions.length > 0 ? (
+                    transactions.map((transaction) => (
+                      <tr key={transaction.id}>
+                        <td>{transaction.id}</td>
+                        <td>{transaction.type}</td>
+                        <td>${transaction.amount}</td>
+                        <td>{new Date(transaction.created_at).toLocaleDateString()}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4}>No transactions available</td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
