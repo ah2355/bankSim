@@ -17,4 +17,6 @@ So far:
 2) The last bug fixed was the connectivity between API in Render
 3) Last Implemented Feature: Table of transaction history
 
+### WEBSITE LIVE NOW ON RENDER: https://banksim-frontend.onrender.com/
+
 *This is a ongoing project and there might be some wrong attempts here and there*
